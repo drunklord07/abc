@@ -9,7 +9,7 @@ def find_mobile_numbers(text):
 
 # Function to read the JSON file and parse it
 def parse_json(file_path):
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:  # Ensure UTF-8 encoding
         data = json.load(file)
     return data
 
@@ -26,7 +26,11 @@ def search_json_for_mobile_numbers(data):
             mobile_numbers = find_mobile_numbers(data)
             if mobile_numbers:
                 for number in mobile_numbers:
-                    print(f"\033[91mFound mobile number: {number}\033[0m")
+                    # Print mobile number in red using ANSI escape codes
+                    try:
+                        print(f"\033[91mFound mobile number: {number}\033[0m")
+                    except UnicodeEncodeError:
+                        print(f"Found mobile number: {number}")  # Fallback if color printing fails
         
     recursive_search(data)
 
