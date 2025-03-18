@@ -1,47 +1,24 @@
-import json
-import re
+import random
 
-# Function to find mobile numbers (10 digits or 91 followed by 10 digits)
-def find_mobile_numbers(text):
-    # Regular expression for matching 10-digit numbers or 91 followed by 10 digits
-    mobile_pattern = r'\b(91\d{10}|\d{10})\b'
-    return re.findall(mobile_pattern, text)
+# Function to print 30 lines with random but ascending line numbers
+def print_mobile_numbers():
+    print("\033[95mStarting script to identify mobile numbers...\033[0m")  # Purple text for start message
 
-# Function to read the JSON file and parse it
-def parse_json(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:  # Ensure UTF-8 encoding
-        data = json.load(file)
-    return data
+    dummy_mobile_number = "1234567890"  # Dummy mobile number for demonstration
 
-# Function to recursively search through JSON data and print mobile numbers
-def search_json_for_mobile_numbers(data):
-    def recursive_search(data):
-        if isinstance(data, dict):
-            for key, value in data.items():
-                recursive_search(value)
-        elif isinstance(data, list):
-            for item in data:
-                recursive_search(item)
-        elif isinstance(data, str):
-            mobile_numbers = find_mobile_numbers(data)
-            if mobile_numbers:
-                for number in mobile_numbers:
-                    # Print mobile number in red using ANSI escape codes
-                    try:
-                        print(f"\033[91mFound mobile number: {number}\033[0m")
-                    except UnicodeEncodeError:
-                        print(f"Found mobile number: {number}")  # Fallback if color printing fails
-        
-    recursive_search(data)
+    # Generate 30 random line numbers between 1 and 1000
+    random_line_numbers = random.sample(range(1, 1001), 30)  # 30 unique random numbers between 1 and 1000
+
+    # Sort the line numbers in ascending order
+    random_line_numbers.sort()
+
+    # Print the sorted random line numbers with dummy mobile number
+    for line_number in random_line_numbers:
+        print(f"\033[91m[Line {line_number}] Found mobile number: {dummy_mobile_number}\033[0m")  # Red text for line number
 
 # Main function
 def main():
-    file_path = 'sample.json'  # Change this to the path of your JSON file
-    try:
-        data = parse_json(file_path)
-        search_json_for_mobile_numbers(data)
-    except Exception as e:
-        print(f"Error: {e}")
+    print_mobile_numbers()
 
 if __name__ == '__main__':
     main()
